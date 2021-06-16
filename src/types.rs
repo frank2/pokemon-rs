@@ -22,6 +22,36 @@ pub enum PokemonType {
     Steel,
     Fairy,
 }
+impl PokemonType {
+    pub fn from_string(typestr: &String) -> Result<Self, &'static str> {
+        match typestr.to_lowercase().as_str() {
+            "normal" => Ok(PokemonType::Normal),
+            "fire" => Ok(PokemonType::Fire),
+            "water" => Ok(PokemonType::Water),
+            "electric" => Ok(PokemonType::Electric),
+            "grass" => Ok(PokemonType::Grass),
+            "ice" => Ok(PokemonType::Ice),
+            "fighting" => Ok(PokemonType::Fighting),
+            "poison" => Ok(PokemonType::Poison),
+            "ground" => Ok(PokemonType::Ground),
+            "flying" => Ok(PokemonType::Flying),
+            "psychic" => Ok(PokemonType::Psychic),
+            "bug" => Ok(PokemonType::Bug),
+            "rock" => Ok(PokemonType::Rock),
+            "ghost" => Ok(PokemonType::Ghost),
+            "dragon" => Ok(PokemonType::Dragon),
+            "dark" => Ok(PokemonType::Dark),
+            "steel" => Ok(PokemonType::Steel),
+            "fairy" => Ok(PokemonType::Fairy),
+            _ => Err("no such Pokemon type"),
+        }
+    }
+    pub fn to_string(&self) -> String {
+        String::from(format!("{:?}", self))
+    }
+}
+
+        
 
 pub const ALL_POKEMON_TYPES: [PokemonType; 18] = [
     PokemonType::Normal,
@@ -50,13 +80,15 @@ pub struct TypeInfo {
     pub strengths: &'static [PokemonType],
     pub weaknesses: &'static [PokemonType],
     pub ineffective: &'static [PokemonType],
+    pub no_effect: &'static [PokemonType],
 }
 
 pub const NORMAL: TypeInfo = TypeInfo {
     type_id: PokemonType::Normal,
     strengths: &[],
     weaknesses: &[PokemonType::Fighting],
-    ineffective: &[PokemonType::Ghost],
+    ineffective: &[],
+    no_effect: &[PokemonType::Ghost],
 };
 
 pub const FIRE: TypeInfo = TypeInfo {
@@ -80,6 +112,7 @@ pub const FIRE: TypeInfo = TypeInfo {
         PokemonType::Steel,
         PokemonType::Fairy,
     ],
+    no_effect: &[],
 };
 
 pub const WATER: TypeInfo = TypeInfo {
@@ -99,6 +132,7 @@ pub const WATER: TypeInfo = TypeInfo {
         PokemonType::Ice,
         PokemonType::Steel,
     ],
+    no_effect: &[],
 };
 
 pub const ELECTRIC: TypeInfo = TypeInfo {
@@ -113,6 +147,7 @@ pub const ELECTRIC: TypeInfo = TypeInfo {
         PokemonType::Flying,
         PokemonType::Steel,
     ],
+    no_effect: &[],
 };
 
 pub const GRASS: TypeInfo = TypeInfo {
@@ -135,6 +170,7 @@ pub const GRASS: TypeInfo = TypeInfo {
         PokemonType::Grass,
         PokemonType::Ground,
     ],
+    no_effect: &[],
 };
 
 pub const ICE: TypeInfo = TypeInfo {
@@ -152,6 +188,7 @@ pub const ICE: TypeInfo = TypeInfo {
         PokemonType::Steel,
     ],
     ineffective: &[PokemonType::Ice],
+    no_effect: &[],
 };
 
 pub const FIGHTING: TypeInfo = TypeInfo {
@@ -173,6 +210,7 @@ pub const FIGHTING: TypeInfo = TypeInfo {
         PokemonType::Rock,
         PokemonType::Dark,
     ],
+    no_effect: &[],
 };
 
 pub const POISON: TypeInfo = TypeInfo {
@@ -192,6 +230,7 @@ pub const POISON: TypeInfo = TypeInfo {
         PokemonType::Bug,
         PokemonType::Fairy
     ],
+    no_effect: &[],
 };
 
 pub const GROUND: TypeInfo = TypeInfo {
@@ -209,10 +248,10 @@ pub const GROUND: TypeInfo = TypeInfo {
         PokemonType::Ice,
     ],
     ineffective: &[
-        PokemonType::Electric,
         PokemonType::Poison,
         PokemonType::Rock,
     ],
+    no_effect: &[PokemonType::Electric],
 };
 
 pub const FLYING: TypeInfo = TypeInfo {
@@ -228,11 +267,11 @@ pub const FLYING: TypeInfo = TypeInfo {
         PokemonType::Rock,
     ],
     ineffective: &[
-        PokemonType::Ground,
         PokemonType::Grass,
         PokemonType::Fighting,
         PokemonType::Bug,
     ],
+    no_effect: &[PokemonType::Ground],
 };
 
 pub const PSYCHIC: TypeInfo = TypeInfo {
@@ -250,6 +289,7 @@ pub const PSYCHIC: TypeInfo = TypeInfo {
         PokemonType::Fighting,
         PokemonType::Psychic,
     ],
+    no_effect: &[],
 };
 
 pub const BUG: TypeInfo = TypeInfo {
@@ -269,6 +309,7 @@ pub const BUG: TypeInfo = TypeInfo {
         PokemonType::Fighting,
         PokemonType::Ground,
     ],
+    no_effect: &[],
 };
 
 pub const ROCK: TypeInfo = TypeInfo {
@@ -292,6 +333,7 @@ pub const ROCK: TypeInfo = TypeInfo {
         PokemonType::Poison,
         PokemonType::Flying,
     ],
+    no_effect: &[],
 };
 
 pub const GHOST: TypeInfo = TypeInfo {
@@ -305,10 +347,12 @@ pub const GHOST: TypeInfo = TypeInfo {
         PokemonType::Dark,
     ],
     ineffective: &[
-        PokemonType::Normal,
-        PokemonType::Fighting,
         PokemonType::Poison,
         PokemonType::Bug,
+    ],
+    no_effect: &[
+        PokemonType::Normal,
+        PokemonType::Fighting,
     ],
 };
 
@@ -326,6 +370,7 @@ pub const DRAGON: TypeInfo = TypeInfo {
         PokemonType::Electric,
         PokemonType::Grass,
     ],
+    no_effect: &[],
 };
 
 pub const DARK: TypeInfo = TypeInfo {
@@ -340,10 +385,10 @@ pub const DARK: TypeInfo = TypeInfo {
         PokemonType::Fairy,
     ],
     ineffective: &[
-        PokemonType::Psychic,
         PokemonType::Ghost,
         PokemonType::Dark,
     ],
+    no_effect: &[PokemonType::Psychic],
 };
 
 pub const STEEL: TypeInfo = TypeInfo {
@@ -370,6 +415,7 @@ pub const STEEL: TypeInfo = TypeInfo {
         PokemonType::Steel,
         PokemonType::Fairy,
     ],
+    no_effect: &[PokemonType::Poison],
 };
 
 pub const FAIRY: TypeInfo = TypeInfo {
@@ -384,60 +430,132 @@ pub const FAIRY: TypeInfo = TypeInfo {
         PokemonType::Steel,
     ],
     ineffective: &[
-        PokemonType::Dragon,
         PokemonType::Fighting,
         PokemonType::Bug,
         PokemonType::Dark,
     ],
+    no_effect: &[PokemonType::Dragon],
 };
 
-pub const ALL_TYPE_INFO: [TypeInfo; 18] = [
-    NORMAL,
-    FIRE,
-    WATER,
-    ELECTRIC,
-    GRASS,
-    ICE,
-    FIGHTING,
-    POISON,
-    GROUND,
-    FLYING,
-    PSYCHIC,
-    BUG,
-    ROCK,
-    GHOST,
-    DRAGON,
-    DARK,
-    STEEL,
-    FAIRY,
-];
-
-pub fn type_info_map() -> HashMap<PokemonType, TypeInfo> {
-    ALL_TYPE_INFO.iter()
-        .map(|&t| (t.type_id, t))
-        .collect()
+#[derive(Clone, Copy, Eq, PartialEq, Debug)]
+pub struct TypeRules {
+    ruleset: &'static [TypeInfo],
 }
-    
-#[derive(Clone, Copy, Hash, Eq, PartialEq, Debug)]
-pub struct TypeSet {
-    pub primary: PokemonType,
-    pub secondary: Option<PokemonType>,
-}
-impl fmt::Display for TypeSet {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        if self.secondary.is_none() {
-            return write!(f, "{:?}", self.primary);
+impl TypeRules {
+    pub fn iter(&self) -> TypeRulesIterator<'_> {
+        TypeRulesIterator {
+            rules: &self,
+            index: 0,
         }
-        else
-        {
-            return write!(f, "{:?}/{:?}", self.primary, self.secondary.clone().unwrap());
+    }
+    pub fn to_set(&self) -> HashSet<PokemonType> {
+        self.iter()
+            .map(|&x| x.type_id)
+            .collect()
+    }
+    pub fn to_map(&self) -> HashMap<PokemonType, TypeInfo> {
+        self.iter()
+            .map(|&t| (t.type_id, t))
+            .collect()
+    }
+}
+impl<'a> IntoIterator for &'a TypeRules {
+    type Item = &'a TypeInfo;
+    type IntoIter = TypeRulesIterator<'a>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        TypeRulesIterator {
+            rules: &self,
+            index: 0,
         }
     }
 }
-impl TypeSet {
-    pub fn strengths(&self) -> HashSet<PokemonType> {
+
+pub struct TypeRulesIterator<'a> {
+    rules: &'a TypeRules,
+    index: usize,
+}
+impl<'a> Iterator for TypeRulesIterator<'a> {
+    type Item = &'a TypeInfo;
+
+    fn next(&mut self) -> Option<&'a TypeInfo> {
+        if self.index >= self.rules.ruleset.len() { return None; }
+
+        let element = &self.rules.ruleset[self.index];
+        self.index += 1;
+
+        Some(element)
+    }
+}
+
+pub const GEN1_RULES: TypeRules = TypeRules {
+    ruleset: &[NORMAL,
+               FIRE,
+               WATER,
+               ELECTRIC,
+               GRASS,
+               ICE,
+               FIGHTING,
+               POISON,
+               GROUND,
+               FLYING,
+               PSYCHIC,
+               BUG,
+               ROCK,
+               GHOST,
+               DRAGON],
+};
+
+pub const GEN2_RULES: TypeRules = TypeRules {
+    ruleset: &[NORMAL,
+               FIRE,
+               WATER,
+               ELECTRIC,
+               GRASS,
+               ICE,
+               FIGHTING,
+               POISON,
+               GROUND,
+               FLYING,
+               PSYCHIC,
+               BUG,
+               ROCK,
+               GHOST,
+               DRAGON,
+               DARK,
+               STEEL],
+};
+
+pub const GEN6_RULES: TypeRules = TypeRules {
+    ruleset: &[NORMAL,
+               FIRE,
+               WATER,
+               ELECTRIC,
+               GRASS,
+               ICE,
+               FIGHTING,
+               POISON,
+               GROUND,
+               FLYING,
+               PSYCHIC,
+               BUG,
+               ROCK,
+               GHOST,
+               DRAGON,
+               DARK,
+               STEEL,
+               FAIRY],
+};
+    
+#[derive(Clone, Copy, Hash, Eq, PartialEq, Debug)]
+pub struct TypeData {
+    pub primary: PokemonType,
+    pub secondary: Option<PokemonType>,
+}
+impl TypeData {
+    pub fn strengths(&self, rules: &TypeRules) -> HashSet<PokemonType> {
         let mut strengths = HashSet::<PokemonType>::new();
-        let type_map = type_info_map();
+        let type_map = GEN6_RULES.to_map();
 
         strengths = type_map.get(&self.primary)
             .unwrap()
@@ -446,7 +564,11 @@ impl TypeSet {
             .map(|&x| x)
             .collect();
 
-        if self.secondary.is_none() { return strengths; }
+        if self.secondary.is_none() {
+            return strengths.intersection(&rules.to_set())
+                .map(|&x| x)
+                .collect();
+        }
 
         let secondary = self.secondary.clone().unwrap();
 
@@ -456,11 +578,13 @@ impl TypeSet {
                 strengths.insert(*strength);
             }
 
-        strengths
+        strengths.intersection(&rules.to_set())
+            .map(|&x| x)
+            .collect()
     }
-    pub fn weaknesses(&self) -> HashSet<PokemonType> {
+    pub fn weaknesses(&self, rules: &TypeRules) -> HashSet<PokemonType> {
         let mut weaknesses = HashSet::<PokemonType>::new();
-        let type_map = type_info_map();
+        let type_map = GEN6_RULES.to_map();
 
         weaknesses = type_map.get(&self.primary)
             .unwrap()
@@ -469,7 +593,11 @@ impl TypeSet {
             .map(|&x| x)
             .collect();
 
-        if self.secondary.is_none() { return weaknesses; }
+        if self.secondary.is_none() {
+            return weaknesses.intersection(&rules.to_set())
+                .map(|&x| x)
+                .collect();
+        }
 
         let secondary = self.secondary.clone().unwrap();
 
@@ -479,16 +607,20 @@ impl TypeSet {
                 weaknesses.insert(*weakness);
             }
 
-        let ineffective_set = self.ineffective();
+        let resistance_set = self.resistance(rules);
 
-        weaknesses
-            .difference(&ineffective_set)
+        weaknesses = weaknesses
+            .difference(&resistance_set)
+            .map(|&x| x)
+            .collect();
+
+        weaknesses.intersection(&rules.to_set())
             .map(|&x| x)
             .collect()
     }
-    pub fn ineffective(&self) -> HashSet<PokemonType> {
+    pub fn ineffective(&self, rules: &TypeRules) -> HashSet<PokemonType> {
         let mut ineffective = HashSet::<PokemonType>::new();
-        let type_map = type_info_map();
+        let type_map = GEN6_RULES.to_map();
 
         ineffective = type_map.get(&self.primary)
             .unwrap()
@@ -497,7 +629,11 @@ impl TypeSet {
             .map(|&x| x)
             .collect();
 
-        if self.secondary.is_none() { return ineffective; }
+        if self.secondary.is_none() {
+            return ineffective.intersection(&rules.to_set())
+                .map(|&x| x)
+                .collect();
+        }
 
         let secondary = self.secondary.clone().unwrap();
 
@@ -507,23 +643,54 @@ impl TypeSet {
                 ineffective.insert(*ineffective_type);
             }
 
-        ineffective
+        ineffective.intersection(&rules.to_set())
+            .map(|&x| x)
+            .collect()
+    }
+    pub fn no_effect(&self, rules: &TypeRules) -> HashSet<PokemonType> {
+        let mut no_effect = HashSet::<PokemonType>::new();
+        let type_map = GEN6_RULES.to_map();
+
+        no_effect = type_map.get(&self.primary)
+            .unwrap()
+            .no_effect
+            .iter()
+            .map(|&x| x)
+            .collect();
+
+        if self.secondary.is_none() {
+            return no_effect.intersection(&rules.to_set())
+                .map(|&x| x)
+                .collect();
+        }
+
+        let secondary = self.secondary.clone().unwrap();
+
+        for no_effect_type in type_map.get(&secondary)
+            .unwrap()
+            .no_effect {
+                no_effect.insert(*no_effect_type);
+            }
+
+        no_effect.intersection(&rules.to_set())
+            .map(|&x| x)
+            .collect()
+    }
+    pub fn resistance(&self, rules: &TypeRules) -> HashSet<PokemonType> {
+        self.ineffective(rules)
+            .union(&self.no_effect(rules))
+            .map(|&x| x)
+            .collect()
     }
 }
-
-pub fn type_coverage(type_id: PokemonType, current_coverage: Option<HashSet<PokemonType>>)
-                     -> HashSet<PokemonType> {
-    let type_map = type_info_map();
-    let coverage: HashSet<PokemonType> = type_map.get(&type_id)
-        .unwrap()
-        .strengths
-        .iter()
-        .map(|&x| x)
-        .collect();
-
-    if current_coverage.is_none() { return coverage; }
-
-    coverage.difference(&current_coverage.unwrap())
-        .map(|&t| t)
-        .collect()
+impl fmt::Display for TypeData {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        if self.secondary.is_none() {
+            return write!(f, "{:?}", self.primary);
+        }
+        else
+        {
+            return write!(f, "{:?}/{:?}", self.primary, self.secondary.clone().unwrap());
+        }
+    }
 }
