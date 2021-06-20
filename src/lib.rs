@@ -204,10 +204,12 @@ impl Team {
             let strengths: HashSet<PokemonType> = pkmn.typeset.strengths(&self.rules);
          
             for strength in strengths {
-                let mut entry = redundancy_map.get(&strength);
+                let entry = redundancy_map.get(&strength);
+                let mut result = 1;
 
-                if entry.is_none() { redundancy_map.insert(strength, 1); }
-                else { redundancy_map.insert(strength, entry.unwrap()+1); }
+                if entry.is_some() { result += entry.unwrap(); }
+
+                redundancy_map.insert(strength, result);
             }
         }
 
@@ -223,10 +225,12 @@ impl Team {
             let weaknesses: HashSet<PokemonType> = pkmn.typeset.weaknesses(&self.rules);
 
             for weakness in weaknesses {
-                let mut entry = weakness_map.get(&weakness);
+                let entry = weakness_map.get(&weakness);
+                let mut result = 1;
 
-                if entry.is_none() { weakness_map.insert(weakness, 1); }
-                else { weakness_map.insert(weakness, entry.unwrap()+1); }
+                if entry.is_some() { result += entry.unwrap(); }
+
+                weakness_map.insert(weakness, result);
             }
         }
 
@@ -247,10 +251,12 @@ impl Team {
             for weakness in type_entry.weaknesses.iter() {
                 if !rules.contains(&weakness) { continue; }
                 
-                let mut vuln_entry = vulnerability_map.get(weakness);
+                let vuln_entry = vulnerability_map.get(weakness);
+                let mut result = 1;
 
-                if vuln_entry.is_none() { vulnerability_map.insert(*weakness, 1); }
-                else { vulnerability_map.insert(*weakness, vuln_entry.unwrap()+1); }
+                if vuln_entry.is_some() { result += vuln_entry.unwrap(); }
+
+                vulnerability_map.insert(*weakness, result);
             }
         }
 
@@ -275,9 +281,11 @@ impl Team {
                     if resistance.contains(&resist_id) { continue; }
 
                     let resist_entry = resistance_gap_map.get(&type_id);
+                    let mut result = 1;
 
-                    if resist_entry.is_none() { resistance_gap_map.insert(*type_id, 1); }
-                    else { resistance_gap_map.insert(*type_id, resist_entry.unwrap()+1); }
+                    if resist_entry.is_some() { result += resist_entry.unwrap(); }
+
+                    resistance_gap_map.insert(*type_id, result);
                 }
         }
 
@@ -328,4 +336,3 @@ impl fmt::Display for Team {
         write!(f, "{}", result)
     }
 }
-

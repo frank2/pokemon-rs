@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 
 use crate::{Pokemon, PokemonGame};
 use crate::monsters::*;
@@ -11,18 +11,34 @@ pub struct Pokedex {
     pub pokemon: &'static [Pokemon]
 }
 impl Pokedex {
-    pub fn filter(&self, pkmn_type: PokemonType) -> Vec<Pokemon> {
+    pub fn typedata(&self) -> HashSet<TypeData> {
+        self.pokemon.iter()
+            .map(|x| x.typeset)
+            .collect()
+    }
+    pub fn filter_type(&self, pkmn_type: PokemonType) -> Vec<Pokemon> {
         self.pokemon.iter()
             .filter(|x| x.typeset.primary == pkmn_type || x.typeset.secondary == Some(pkmn_type))
             .cloned()
             .collect()
     }
+    pub fn filter_typeset(&self, pkmn_typeset: TypeData) -> Vec<Pokemon> {
+        self.pokemon.iter()
+            .filter(|x| x.typeset == pkmn_typeset)
+            .cloned()
+            .collect()
+    }
     pub fn type_map(&self) -> HashMap<PokemonType, Vec<Pokemon>> {
-        let mut result = HashMap::<PokemonType, Vec<Pokemon>>::new();
-
-        for pkmn_type in self.rules.to_set() { result.insert(pkmn_type, self.filter(pkmn_type)); }
-
-        result
+        self.rules.to_set()
+            .iter()
+            .map(|&x| (x, self.filter_type(x)))
+            .collect()
+    }
+    pub fn typeset_map(&self) -> HashMap<TypeData, Vec<Pokemon>> {
+        self.typedata()
+            .iter()
+            .map(|&x| (x, self.filter_typeset(x)))
+            .collect()
     }
     pub fn by_name(&self, name: &str) -> Option<Vec<Pokemon>> {
         let target_name = String::from(name).to_lowercase();
@@ -36,6 +52,38 @@ impl Pokedex {
 
         if result.len() == 0 { return None; }
         Some(result)
+    }
+    pub fn weakness_map(&self) -> HashMap<PokemonType, Vec<Pokemon>> {
+        let mut weakness_data: HashMap<PokemonType, Vec<Pokemon>> = self.rules.to_set()
+            .iter()
+            .map(|&x| (x, Vec::<Pokemon>::new()))
+            .collect();
+
+        for pkmn in self.pokemon {
+            for weakness in pkmn.typeset.weaknesses(&self.rules) {
+                weakness_data.get_mut(&weakness)
+                    .unwrap()
+                    .push(pkmn.clone());
+            }
+        }
+
+        weakness_data
+    }
+    pub fn resistance_map(&self) -> HashMap<PokemonType, Vec<Pokemon>> {
+        let mut resistance_data: HashMap<PokemonType, Vec<Pokemon>> = self.rules.to_set()
+            .iter()
+            .map(|&x| (x, Vec::<Pokemon>::new()))
+            .collect();
+
+        for pkmn in self.pokemon {
+            for resistance in pkmn.typeset.resistance(&self.rules) {
+                resistance_data.get_mut(&resistance)
+                    .unwrap()
+                    .push(pkmn.clone());
+            }
+        }
+
+        resistance_data
     }
 }
 
@@ -127,7 +175,7 @@ pub const REDBLUEYELLOW: Pokedex = Pokedex {
         MEW,
         MEWTWO,
         MOLTRES,
-        MR_MIME,
+        MR_MIME_GEN1,
         MUK,
         NIDOKING,
         NIDOQUEEN,

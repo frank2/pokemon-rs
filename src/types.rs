@@ -51,29 +51,6 @@ impl PokemonType {
     }
 }
 
-        
-
-pub const ALL_POKEMON_TYPES: [PokemonType; 18] = [
-    PokemonType::Normal,
-    PokemonType::Fire,
-    PokemonType::Water,
-    PokemonType::Electric,
-    PokemonType::Grass,
-    PokemonType::Ice,
-    PokemonType::Fighting,
-    PokemonType::Poison,
-    PokemonType::Ground,
-    PokemonType::Flying,
-    PokemonType::Psychic,
-    PokemonType::Bug,
-    PokemonType::Rock,
-    PokemonType::Ghost,
-    PokemonType::Dragon,
-    PokemonType::Dark,
-    PokemonType::Steel,
-    PokemonType::Fairy,
-];
-
 #[derive(Clone, Copy, Eq, PartialEq, Debug)]
 pub struct TypeInfo {
     pub type_id: PokemonType,
@@ -292,6 +269,20 @@ pub const PSYCHIC: TypeInfo = TypeInfo {
     no_effect: &[],
 };
 
+pub const PSYCHIC_GEN1: TypeInfo = TypeInfo {
+    type_id: PokemonType::Psychic,
+    strengths: &[
+        PokemonType::Fighting,
+        PokemonType::Poison,
+    ],
+    weaknesses: &[PokemonType::Bug],
+    ineffective: &[
+        PokemonType::Fighting,
+        PokemonType::Psychic,
+    ],
+    no_effect: &[PokemonType::Ghost],
+};
+
 pub const BUG: TypeInfo = TypeInfo {
     type_id: PokemonType::Bug,
     strengths: &[
@@ -499,7 +490,7 @@ pub const GEN1_RULES: TypeRules = TypeRules {
                POISON,
                GROUND,
                FLYING,
-               PSYCHIC,
+               PSYCHIC_GEN1,
                BUG,
                ROCK,
                GHOST,
@@ -554,10 +545,8 @@ pub struct TypeData {
 }
 impl TypeData {
     pub fn strengths(&self, rules: &TypeRules) -> HashSet<PokemonType> {
-        let mut strengths = HashSet::<PokemonType>::new();
         let type_map = GEN6_RULES.to_map();
-
-        strengths = type_map.get(&self.primary)
+        let mut strengths: HashSet<PokemonType> = type_map.get(&self.primary)
             .unwrap()
             .strengths
             .iter()
@@ -583,10 +572,8 @@ impl TypeData {
             .collect()
     }
     pub fn weaknesses(&self, rules: &TypeRules) -> HashSet<PokemonType> {
-        let mut weaknesses = HashSet::<PokemonType>::new();
         let type_map = GEN6_RULES.to_map();
-
-        weaknesses = type_map.get(&self.primary)
+        let mut weaknesses: HashSet<PokemonType> = type_map.get(&self.primary)
             .unwrap()
             .weaknesses
             .iter()
@@ -619,10 +606,8 @@ impl TypeData {
             .collect()
     }
     pub fn ineffective(&self, rules: &TypeRules) -> HashSet<PokemonType> {
-        let mut ineffective = HashSet::<PokemonType>::new();
         let type_map = GEN6_RULES.to_map();
-
-        ineffective = type_map.get(&self.primary)
+        let mut ineffective: HashSet<PokemonType> = type_map.get(&self.primary)
             .unwrap()
             .ineffective
             .iter()
@@ -648,10 +633,8 @@ impl TypeData {
             .collect()
     }
     pub fn no_effect(&self, rules: &TypeRules) -> HashSet<PokemonType> {
-        let mut no_effect = HashSet::<PokemonType>::new();
         let type_map = GEN6_RULES.to_map();
-
-        no_effect = type_map.get(&self.primary)
+        let mut no_effect: HashSet<PokemonType> = type_map.get(&self.primary)
             .unwrap()
             .no_effect
             .iter()

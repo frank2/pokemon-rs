@@ -1,9 +1,7 @@
 #![recursion_limit="256"]
 
 use std::collections::{HashMap, HashSet};
-use std::fmt;
-use std::io::{self, Read};
-use std::iter::FromIterator;
+use std::io;
 
 use pokemon::{Pokemon, Team};
 use pokemon::monsters;
@@ -63,9 +61,6 @@ impl TeamBuilder {
 
         result
     }
-    pub fn to_set(&self) -> HashSet<Pokemon> {
-        self.team.to_set()
-    }
     pub fn get_team(&self) -> Team {
         self.team.clone()
     }
@@ -105,7 +100,6 @@ impl TeamBuilder {
     }
     pub fn add_from_vulnerabilities(&mut self) -> Option<Team> {
         let type_map = self.dex.type_map();
-        let info_map = self.dex.rules.to_map();
         let vuln_map = self.vulnerability_map.clone();
         
         if self.uncovered.len() == 0 { return None; }
@@ -117,6 +111,11 @@ impl TeamBuilder {
             
             for pkmn in vulns {
                 if self.banned.contains(&pkmn) { continue; }
+
+                /* if the weakness is actually a weakness of this pokemon, it's not suitable */
+                if pkmn.typeset
+                    .weaknesses(&self.dex.rules)
+                    .contains(&weakness) { continue; }
                 
                 /* if there are not enough Pokemon on the team, just add them */
                 if self.insert(&pkmn) {
@@ -140,10 +139,12 @@ impl TeamBuilder {
 
                     for (redundant_type,_) in redundancy_map {
                         for redundant_pkmn in self.team.covers(redundant_type) {
-                            let mut entry = redundancy_count.get(&redundant_pkmn);
+                            let entry = redundancy_count.get(&redundant_pkmn);
+                            let mut result = 1;
 
-                            if entry.is_none() { redundancy_count.insert(redundant_pkmn, 1); }
-                            else { redundancy_count.insert(redundant_pkmn, entry.unwrap()+1); }
+                            if entry.is_some() { result += entry.unwrap(); }
+
+                            redundancy_count.insert(redundant_pkmn, result);
                         }
                     }
 
@@ -188,9 +189,11 @@ impl TeamBuilder {
                 if self.fixed.contains(&weak_pkmn) { continue; }
                 
                 let entry = weakness_count.get(&weak_pkmn);
+                let mut result = 1;
 
-                if entry.is_none() { weakness_count.insert(weak_pkmn.clone(), 1); }
-                else { weakness_count.insert(weak_pkmn.clone(), entry.unwrap()+1); }
+                if entry.is_some() { result += entry.unwrap(); }
+
+                weakness_count.insert(weak_pkmn.clone(), result);
             }
         }
 
@@ -222,9 +225,11 @@ impl TeamBuilder {
                 if self.fixed.contains(&redundant_pkmn) { continue; }
                 
                 let entry = redundancy_count.get(&redundant_pkmn);
+                let mut result = 1;
 
-                if entry.is_none() { redundancy_count.insert(redundant_pkmn.clone(), 1); }
-                else { redundancy_count.insert(redundant_pkmn.clone(), entry.unwrap()+1); }
+                if entry.is_some() { result += entry.unwrap(); }
+
+                redundancy_count.insert(redundant_pkmn.clone(), result);
             }
         }
 
@@ -233,7 +238,11 @@ impl TeamBuilder {
             .collect();
         redundancy_vec.sort_by(|a,b| b.1.cmp(&a.1));
 
-        let (pkmn,_) = redundancy_vec.iter().next().unwrap();
+        let redundancy = redundancy_vec.iter().next();
+
+        if redundancy.is_none() { return None; }
+
+        let (pkmn,_) = redundancy.unwrap();
 
         self.remove(&pkmn);
         self.rejected.push(self.team.to_set());
@@ -244,17 +253,33 @@ impl TeamBuilder {
 
 fn main() -> io::Result<()> {
     let mut line = String::new();
-    let mut stdin = io::stdin();
+    let stdin = io::stdin();
+
     let pokedex = pokedex::REDBLUEYELLOW;
+
+    /*
+    let weakness_map = pokedex.weakness_map();
+    let resistance_map = pokedex.resistance_map();
+    
+    println!("Resistance map: {:?}", resistance_map.get(&PokemonType::Psychic));
+    println!("Gengar: {}", pokedex.by_name("gengar").unwrap().pop().unwrap());
+     */
+
     let fixed_set: HashSet<Pokemon> = [monsters::CHARIZARD].iter().cloned().collect();
-    let banned_set: HashSet<Pokemon> = [monsters::GENGAR, monsters::MACHAMP, monsters::GOLEM].iter().cloned().collect();
+    let banned_set: HashSet<Pokemon> = [
+        monsters::GENGAR,
+        monsters::MACHAMP,
+        monsters::GOLEM,
+        monsters::VENUSAUR,
+        monsters::BLASTOISE,
+    ].iter().cloned().collect();
     let mut builder = TeamBuilder::new(&pokedex, Some(fixed_set), Some(banned_set));
     
     let mut result = builder.add_from_vulnerabilities();
 
     while result.is_some() {
         println!("Team: {}", result.unwrap());
-        stdin.read_line(&mut line);
+        stdin.read_line(&mut line).ok();
 
         result = builder.add_from_vulnerabilities();
 
