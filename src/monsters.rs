@@ -616,6 +616,21 @@ pub const AZURILL: Pokemon = Pokemon {
         speed: 20,
     },
 };
+pub const AZURILL_GEN2: Pokemon = Pokemon {
+    name: "Azurill",
+    typeset: TypeData {
+        primary: PokemonType::Normal,
+        secondary: None,
+    },
+    stats: Stats {
+        hp: 50,
+        attack: 20,
+        defense: 40,
+        special_attack: 20,
+        special_defense: 40,
+        speed: 20,
+    },
+};
 pub const BAGON: Pokemon = Pokemon {
     name: "Bagon",
     typeset: TypeData {
@@ -4261,6 +4276,21 @@ pub const GARDEVOIR: Pokemon = Pokemon {
         speed: 80,
     },
 };
+pub const GARDEVOIR_GEN2: Pokemon = Pokemon {
+    name: "Gardevoir",
+    typeset: TypeData {
+        primary: PokemonType::Psychic,
+        secondary: None,
+    },
+    stats: Stats {
+        hp: 68,
+        attack: 65,
+        defense: 65,
+        special_attack: 125,
+        special_defense: 115,
+        speed: 80,
+    },
+};
 pub const GASTLY: Pokemon = Pokemon {
     name: "Gastly",
     typeset: TypeData {
@@ -5986,6 +6016,21 @@ pub const KIRLIA: Pokemon = Pokemon {
         speed: 50,
     },
 };
+pub const KIRLIA_GEN2: Pokemon = Pokemon {
+    name: "Kirlia",
+    typeset: TypeData {
+        primary: PokemonType::Psychic,
+        secondary: None,
+    },
+    stats: Stats {
+        hp: 38,
+        attack: 35,
+        defense: 35,
+        special_attack: 65,
+        special_defense: 55,
+        speed: 50,
+    },
+};
 pub const KLANG: Pokemon = Pokemon {
     name: "Klang",
     typeset: TypeData {
@@ -7266,6 +7311,21 @@ pub const MAWILE: Pokemon = Pokemon {
     typeset: TypeData {
         primary: PokemonType::Steel,
         secondary: Some(PokemonType::Fairy),
+    },
+    stats: Stats {
+        hp: 50,
+        attack: 85,
+        defense: 85,
+        special_attack: 55,
+        special_defense: 55,
+        speed: 50,
+    },
+};
+pub const MAWILE_GEN2: Pokemon = Pokemon {
+    name: "Mawile",
+    typeset: TypeData {
+        primary: PokemonType::Steel,
+        secondary: None,
     },
     stats: Stats {
         hp: 50,
@@ -9406,6 +9466,21 @@ pub const RALTS: Pokemon = Pokemon {
         speed: 40,
     },
 };
+pub const RALTS_GEN2: Pokemon = Pokemon {
+    name: "Ralts",
+    typeset: TypeData {
+        primary: PokemonType::Psychic,
+        secondary: None,
+    },
+    stats: Stats {
+        hp: 28,
+        attack: 25,
+        defense: 25,
+        special_attack: 45,
+        special_defense: 35,
+        speed: 40,
+    },
+};
 pub const RAMPARDOS: Pokemon = Pokemon {
     name: "Rampardos",
     typeset: TypeData {
@@ -9824,6 +9899,81 @@ pub const ROTOM: Pokemon = Pokemon {
         special_attack: 95,
         special_defense: 77,
         speed: 91,
+    },
+};
+pub const ROTOM_HEAT: Pokemon = Pokemon {
+    name: "Rotom",
+    typeset: TypeData {
+        primary: PokemonType::Electric,
+        secondary: Some(PokemonType::Fire),
+    },
+    stats: Stats {
+        hp: 50,
+        attack: 65,
+        defense: 107,
+        special_attack: 105,
+        special_defense: 107,
+        speed: 86,
+    },
+};
+pub const ROTOM_WASH: Pokemon = Pokemon {
+    name: "Rotom",
+    typeset: TypeData {
+        primary: PokemonType::Electric,
+        secondary: Some(PokemonType::Water),
+    },
+    stats: Stats {
+        hp: 50,
+        attack: 65,
+        defense: 107,
+        special_attack: 105,
+        special_defense: 107,
+        speed: 86,
+    },
+};
+pub const ROTOM_FROST: Pokemon = Pokemon {
+    name: "Rotom",
+    typeset: TypeData {
+        primary: PokemonType::Electric,
+        secondary: Some(PokemonType::Ice),
+    },
+    stats: Stats {
+        hp: 50,
+        attack: 65,
+        defense: 107,
+        special_attack: 105,
+        special_defense: 107,
+        speed: 86,
+    },
+};
+pub const ROTOM_FAN: Pokemon = Pokemon {
+    name: "Rotom",
+    typeset: TypeData {
+        primary: PokemonType::Electric,
+        secondary: Some(PokemonType::Flying),
+    },
+    stats: Stats {
+        hp: 50,
+        attack: 65,
+        defense: 107,
+        special_attack: 105,
+        special_defense: 107,
+        speed: 86,
+    },
+};
+pub const ROTOM_MOW: Pokemon = Pokemon {
+    name: "Rotom",
+    typeset: TypeData {
+        primary: PokemonType::Electric,
+        secondary: Some(PokemonType::Grass),
+    },
+    stats: Stats {
+        hp: 50,
+        attack: 65,
+        defense: 107,
+        special_attack: 105,
+        special_defense: 107,
+        speed: 86,
     },
 };
 pub const ROWLET: Pokemon = Pokemon {
@@ -12050,6 +12200,21 @@ pub const TOGEKISS: Pokemon = Pokemon {
     name: "Togekiss",
     typeset: TypeData {
         primary: PokemonType::Fairy,
+        secondary: Some(PokemonType::Flying),
+    },
+    stats: Stats {
+        hp: 85,
+        attack: 50,
+        defense: 95,
+        special_attack: 120,
+        special_defense: 115,
+        speed: 80,
+    },
+};
+pub const TOGEKISS_GEN2: Pokemon = Pokemon {
+    name: "Togekiss",
+    typeset: TypeData {
+        primary: PokemonType::Normal,
         secondary: Some(PokemonType::Flying),
     },
     stats: Stats {
