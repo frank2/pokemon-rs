@@ -586,6 +586,21 @@ pub const AZUMARILL: Pokemon = Pokemon {
         speed: 50,
     },
 };
+pub const AZUMARILL_GEN2: Pokemon = Pokemon {
+    name: "Azumarill",
+    typeset: TypeData {
+        primary: PokemonType::Water,
+        secondary: None,
+    },
+    stats: Stats {
+        hp: 100,
+        attack: 50,
+        defense: 80,
+        special_attack: 60,
+        special_defense: 80,
+        speed: 50,
+    },
+};
 pub const AZURILL: Pokemon = Pokemon {
     name: "Azurill",
     typeset: TypeData {
@@ -1966,7 +1981,7 @@ pub const CLEFFA: Pokemon = Pokemon {
         speed: 15,
     },
 };
-pub const CLEFFA_GEN1: Pokemon = Pokemon {
+pub const CLEFFA_GEN2: Pokemon = Pokemon {
     name: "Cleffa",
     typeset: TypeData {
         primary: PokemonType::Normal,
@@ -4741,6 +4756,21 @@ pub const GRANBULL: Pokemon = Pokemon {
         speed: 45,
     },
 };
+pub const GRANBULL_GEN2: Pokemon = Pokemon {
+    name: "Granbull",
+    typeset: TypeData {
+        primary: PokemonType::Normal,
+        secondary: None,
+    },
+    stats: Stats {
+        hp: 90,
+        attack: 120,
+        defense: 75,
+        special_attack: 60,
+        special_defense: 60,
+        speed: 45,
+    },
+};
 pub const GRAPPLOCT: Pokemon = Pokemon {
     name: "Grapploct",
     typeset: TypeData {
@@ -7146,6 +7176,21 @@ pub const MARILL: Pokemon = Pokemon {
     typeset: TypeData {
         primary: PokemonType::Water,
         secondary: Some(PokemonType::Fairy),
+    },
+    stats: Stats {
+        hp: 70,
+        attack: 20,
+        defense: 50,
+        special_attack: 20,
+        special_defense: 50,
+        speed: 40,
+    },
+};
+pub const MARILL_GEN2: Pokemon = Pokemon {
+    name: "Marill",
+    typeset: TypeData {
+        primary: PokemonType::Water,
+        secondary: None,
     },
     stats: Stats {
         hp: 70,
@@ -11015,6 +11060,21 @@ pub const SNUBBULL: Pokemon = Pokemon {
     name: "Snubbull",
     typeset: TypeData {
         primary: PokemonType::Fairy,
+        secondary: None,
+    },
+    stats: Stats {
+        hp: 60,
+        attack: 80,
+        defense: 50,
+        special_attack: 40,
+        special_defense: 40,
+        speed: 30,
+    },
+};
+pub const SNUBBULL_GEN2: Pokemon = Pokemon {
+    name: "Snubbull",
+    typeset: TypeData {
+        primary: PokemonType::Normal,
         secondary: None,
     },
     stats: Stats {
